@@ -3,6 +3,7 @@
 #include "DInput8.h"
 #include "Hook.h"
 #include "CustomHooks.h"
+#include "MemoryReader.h"
 
 void Init()
 {
@@ -18,6 +19,9 @@ void Init()
 	InitializeHooking();
 
 	SetupHooks();
+	
+	// Запускаем чтение памяти в отдельном потоке
+	StartMemoryReading();
 }
 
 BOOL APIENTRY DllMain(HMODULE Module,
@@ -36,4 +40,5 @@ BOOL APIENTRY DllMain(HMODULE Module,
 	}
 	return TRUE;
 }
+
 

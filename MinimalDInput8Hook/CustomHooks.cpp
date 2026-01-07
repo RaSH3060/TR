@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "CustomHooks.h"
+#include "DInput8.h"
 
+// Типы функций для перехвата
 typedef HANDLE(*CreateFileA_t)(
 	LPCSTR                lpFileName,
 	DWORD                 dwDesiredAccess,
@@ -19,9 +21,11 @@ typedef HANDLE(*CreateFileW_t)(
 	DWORD                 dwFlagsAndAttributes,
 	HANDLE                hTemplateFile);
 
+// Оригинальные функции
 CreateFileA_t OriginalCreateFileA;
 CreateFileW_t OriginalCreateFileW;
 
+// Перехватчик CreateFileA
 HANDLE CreateFileA_Wrapper(
 	LPCSTR                lpFileName,
 	DWORD                 dwDesiredAccess,
@@ -32,11 +36,11 @@ HANDLE CreateFileA_Wrapper(
 	HANDLE                hTemplateFile
 )
 {
-	// Do our custom stuff and parameter rewriting
+	// Выводим имя файла для отладки
 	WriteConsoleA(GetStdHandle(STD_OUTPUT_HANDLE), lpFileName, (DWORD)strlen(lpFileName), nullptr, nullptr);
 	WriteConsoleA(GetStdHandle(STD_OUTPUT_HANDLE), "\n", 1, nullptr, nullptr);
 
-	// Call the original CreateFileA function
+	// Вызываем оригинальную функцию
 	return OriginalCreateFileA(
 		lpFileName,
 		dwDesiredAccess,
@@ -47,6 +51,7 @@ HANDLE CreateFileA_Wrapper(
 		hTemplateFile);
 }
 
+// Перехватчик CreateFileW
 HANDLE CreateFileW_Wrapper(
 	LPCWSTR                lpFileName,
 	DWORD                 dwDesiredAccess,
@@ -57,11 +62,11 @@ HANDLE CreateFileW_Wrapper(
 	HANDLE                hTemplateFile
 )
 {
-	// Do our custom stuff and parameter rewriting
+	// Выводим имя файла для отладки
 	WriteConsoleW(GetStdHandle(STD_OUTPUT_HANDLE), lpFileName, (DWORD)wcslen(lpFileName), nullptr, nullptr);
 	WriteConsoleW(GetStdHandle(STD_OUTPUT_HANDLE), L"\n", 1, nullptr, nullptr);
 
-	// Call the original CreateFileW function
+	// Вызываем оригинальную функцию
 	return OriginalCreateFileW(
 		lpFileName,
 		dwDesiredAccess,
@@ -72,13 +77,44 @@ HANDLE CreateFileW_Wrapper(
 		hTemplateFile);
 }
 
+// Функция для проверки, нужно ли блокировать клавишу
+bool ShouldBlockKey(BYTE key) {
+	if (!inputBlockingEnabled) return false;
+	
+	DWORD currentFrame = GetCurrentFrameValue();
+	DWORD threshold = blockThreshold.load();
+	
+	// Если текущее значение фрейма достигло или превысило порог блокировки
+	if (currentFrame >= threshold) {
+		std::lock_guard<std::mutex> lock(macroMutex);
+		return blockedKeys.find(key) != blockedKeys.end();
+	}
+	
+	return false;
+}
+
+// Функция для проверки запуска макроса
+void CheckMacroTrigger() {
+	DWORD currentFrame = GetCurrentFrameValue();
+	DWORD threshold = macroThreshold.load();
+	
+	// Если текущее значение фрейма достигло или превысило порог макроса
+	// и макрос еще не запущен
+	if (currentFrame >= threshold && !macroRunning) {
+		StartMacro();
+	}
+}
+
+// Функция настройки хуков
 void SetupHooks()
 {
-	// Create a console for Debug output
+	// Создаем консоль для отладочного вывода
 	AllocConsole();
 
-	// Setup hooks here, see examples below
-	
+	// Инициализируем менеджер ввода
+	InitializeInputManager();
+
+	// Устанавливаем хуки
 	OriginalCreateFileA = HookFunction("KERNEL32.dll", "CreateFileA", &CreateFileA_Wrapper);
 	OriginalCreateFileW = HookFunction("KERNEL32.dll", "CreateFileW", &CreateFileW_Wrapper);
 }

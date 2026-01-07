@@ -1,240 +1,45 @@
 ```
-# Build results
-bin/
-obj/
-out/
-
-# User-specific files
-*.user
-*.userosscache
-*.suo
-*.userprefs
-
-# Build results of an F# project
-[Fs]_Files/
-[_Binaries/]
-
-# Dependencies
-packages/
-*.nupkg
-
-# NuGet
-!packages.config
-
-# Visual Studio cache/options
-.vs/
-*.VC.db
-*.VC.VC.opendb
-
-# Visual Studio Code
-.vscode/
-
-# Build results
-*.exe
-*.dll
-*.so
-*.dylib
-
-# Configuration
-app.config
-web.config
-
-# OS generated files
-.DS_Store
-Thumbs.db
-
-# Temporary files
-*.tmp
-*.temp
-*.log
-
-# Environment
-.env
-.env.local
-*.env.*
-
-# Coverage
-coverage/
-*.coverage
-
-# Compiled files
-*.o
+# Build artifacts
 *.obj
-*.a
 *.lib
-*.so
 *.dll
 *.exe
-*.out
+*.pdb
+*.ilk
 
-# Package manager
-node_modules/
-bower_components/
+# Visual Studio
+*.vcxproj.user
+*.sln
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-.venv/
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.log
-.gitattributes
-
-# Logs
-*.log
-
-# IDE
-.idea/
-*.swp
-*.swo
-
-# Distribution / packaging
-.Python
-env/
-venv/
-.venv/
-pip-log.txt
-pip-delete-this-directory.txt
-target/
+# Build directories
+Debug/
+Release/
+x64/
 build/
 dist/
-*.egg
-*.egg-info/
-MANIFEST
-
-# MyPy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pytest
-.pytest_cache/
-
-# Coverage
-htmlcov/
-.coverage
-.coverage.*
-.cache
-
-# Node
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Gradle
-.gradle/
-build/
-
-# Compiled Binary Files
-*.class
-*.o
-*.a
-*.obj
-*.so
-*.dll
-*.exe
-*.out
-*.pyc
-*.pyo
-*.pyd
-*.nupkg
-
-# Build Artifacts
-bin/
-obj/
-out/
-.vs/
-.vscode/
-*.VC.db
-*.VC.VC.opendb
-
-# Dependencies
-packages/
-packages-microsoft-prod.deb
 
 # Temporary files
 *.tmp
-*.temp
 *.log
-
-# User-specific files
-*.user
-*.userosscache
-*.suo
-*.userprefs
-
-# OS generated files
-.DS_Store
-Thumbs.db
-
-# Configuration
-app.config
-web.config
-
-# Coverage
-coverage/
-*.coverage
 
 # Environment
 .env
 .env.local
 *.env.*
 
-# Logs
-*.log
-
-# IDE
-.idea/
-*.swp
-*.swo
-
-# Distribution / packaging
-dist/
-build/
-
-# MyPy
-.mypy_cache/
-
-# Pytest
-.pytest_cache/
-
-# Node
+# Dependencies
 node_modules/
-
-# Gradle
-.gradle/
-
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-env/
 venv/
 .venv/
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.log
-.gitattributes
+__pycache__/
+*.egg-info/
+
+# OS generated files
+.DS_Store
+Thumbs.db
 ```
+packages-microsoft-prod.deb
